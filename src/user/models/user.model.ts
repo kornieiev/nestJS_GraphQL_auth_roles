@@ -6,7 +6,7 @@ export class UserModel {
   id: number;
 
   @Field(() => String)
-  useername: string;
+  username: string;
 
   @Field(() => String)
   email: string;

@@ -13,5 +13,6 @@ export async function getGraphQLConfig(
     autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     sortSchema: true,
     playground: isDev(ConfigService), // закроет доступ к playground, если режим разработки не development // https://youtu.be/HT6cm4GoSIw?t=24652
+    context: ({ req, res }) => ({ req, res }),
   };
 }
