@@ -3,21 +3,37 @@ import { User, UserRole } from '@prisma/client';
 
 registerEnumType(UserRole, { name: 'UserRole' });
 
-@ObjectType() // этот декоратор указывает что это именно объект graphql
+@ObjectType({
+  description: 'Модель пользователя',
+}) // этот декоратор указывает что это именно объект graphql
 export class UserModel implements User {
   @Field(() => ID)
   id: string;
 
-  @Field(() => String)
+  @Field(() => String, {
+    nullable: true,
+    defaultValue: 'Lola',
+    description: 'Имя пользователя',
+  })
   name: string;
 
-  @Field(() => String)
+  @Field(() => String, {
+    nullable: false,
+    defaultValue: 'lola@mail.com',
+    description: 'Почта пользователя',
+  })
   email: string;
 
-  @Field(() => String)
+  @Field(() => String, {
+    nullable: false,
+    description: 'Пароль пользователя',
+  })
   password: string;
 
-  @Field(() => UserRole)
+  @Field(() => UserRole, {
+    nullable: false,
+    description: 'Роль пользователя',
+  })
   role: UserRole;
 
   @Field(() => Date)

@@ -10,13 +10,17 @@ export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Authorization()
-  @Query(() => UserModel)
+  @Query(() => UserModel, {
+    description: 'Возврат токена активного пользователя',
+  })
   getMe(@Authorized() user: User) {
     return user;
   }
 
   @Authorization(UserRole.ADMIN) // путь доступен только для тех, кто авторизован и имеет роль ADMIN
-  @Query(() => [UserModel])
+  @Query(() => [UserModel], {
+    description: 'Возврат полного списка пользователей',
+  })
   async getUsers() {
     return await this.userService.findAll();
   }

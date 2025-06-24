@@ -24,7 +24,10 @@ type Mutation {
 }
 
 type Query {
+  """Возврат токена активного пользователя"""
   getMe: UserModel!
+
+  """Возврат полного списка пользователей"""
   getUsers: [UserModel!]!
 }
 
@@ -34,12 +37,21 @@ input RegisterInput {
   password: String!
 }
 
+"""Модель пользователя"""
 type UserModel {
   createdAt: DateTime!
+
+  """Почта пользователя"""
   email: String!
   id: ID!
-  name: String!
+
+  """Имя пользователя"""
+  name: String
+
+  """Пароль пользователя"""
   password: String!
+
+  """Роль пользователя"""
   role: UserRole!
   updatedAt: DateTime!
 }
