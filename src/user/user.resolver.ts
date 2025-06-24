@@ -1,13 +1,23 @@
 import { Resolver, Query } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserModel } from './models/user.model';
+import { Authorization } from 'src/auth/decorators/authorization.decorator';
+import { Authorized } from 'src/auth/decorators/authorized.guard';
+import { User, UserRole } from '@prisma/client';
 
 @Resolver()
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  @Authorization()
+  @Query(() => UserModel)
+  getMe(@Authorized() user: User) {
+    return user;
+  }
+
+  @Authorization(UserRole.ADMIN) // путь доступен только для тех, кто авторизован и имеет роль ADMIN
   @Query(() => [UserModel])
-  getUsers() {
-    return this.userService.findAll();
+  async getUsers() {
+    return await this.userService.findAll();
   }
 }

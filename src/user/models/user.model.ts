@@ -1,13 +1,28 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { User, UserRole } from '@prisma/client';
 
-@ObjectType() // этот декоратор указываетчто это именно объект graphql
-export class UserModel {
-  @Field(() => Number)
-  id: number;
+registerEnumType(UserRole, { name: 'UserRole' });
+
+@ObjectType() // этот декоратор указывает что это именно объект graphql
+export class UserModel implements User {
+  @Field(() => ID)
+  id: string;
 
   @Field(() => String)
-  username: string;
+  name: string;
 
   @Field(() => String)
   email: string;
+
+  @Field(() => String)
+  password: string;
+
+  @Field(() => UserRole)
+  role: UserRole;
+
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Field(() => Date)
+  updatedAt: Date;
 }
